@@ -429,71 +429,83 @@
             </div>
         </header>
 
-        <!-- 탭 콘텐츠 영역 -->
+        <!-- 단일 스크롤 콘텐츠 영역 (탭 전환 없음) -->
         <div class="mobile-content">
 
-            <!-- 탭 1: 일정표 (필터 + 일정표 + 검색) -->
-            <div id="mobile-tab-schedule" class="mobile-tab-panel">
+            <!-- 섹션 1: 일정표 (필터 + 일정표) -->
+            <div class="mobile-tab-panel">
                 <div class="mobile-section-header" style="margin-bottom:0.4rem;">
                     <h2>📅 2027 논술 일정표</h2>
                     <button class="mobile-chip-btn" onclick="toggleScheduleTranspose()">⇄ 행열 전환</button>
                 </div>
-                <!-- 모바일 필터 아코디언 (컴팩트화 적용) -->
-                <details class="mobile-filter-accordion" style="margin-bottom:0.5rem;">
-                    <summary class="mobile-filter-summary" style="padding:0.4rem 0.75rem; font-size:0.8rem;">🎯 맞춤 필터</summary>
-                    <div class="mobile-filter-body" style="padding:0.5rem; gap:0.4rem;">
-                        <div class="mobile-filter-group" style="border-left:3px solid #4f46e5; padding:0.35rem 0.5rem;">
-                            <div class="mobile-filter-group-title" style="color:#4f46e5; font-size:0.68rem; margin-bottom:0.25rem;">📐 수리 필터</div>
-                            <div class="mobile-filter-rows" style="gap:0.2rem;">
-                                <div class="mobile-filter-row">
-                                    <span class="mobile-filter-label" style="color:#dc2626; font-size:0.65rem;">미적</span>
-                                    <div class="mobile-radio-group">
-                                        <label class="level-btn" style="font-size:0.62rem; margin:0;"><input type="radio" name="미적" value="무관" checked onchange="handleFilterChange()"><span>무관</span></label>
-                                        <label class="level-btn" style="font-size:0.62rem; margin:0;"><input type="radio" name="미적" value="포함" onchange="handleFilterChange()"><span style="color:#dc2626;font-weight:700;">포함</span></label>
-                                        <label class="level-btn" style="font-size:0.62rem; margin:0;"><input type="radio" name="미적" value="불포함" onchange="handleFilterChange()"><span>제외</span></label>
+                <!-- 모바일 필터 아코디언 (컴팩트화 및 유연 배치 적용) -->
+                <details class="mobile-filter-accordion" style="margin-bottom:0.6rem;">
+                    <summary class="mobile-filter-summary" style="padding:0.5rem 0.85rem; font-size:0.85rem;">🎯 맞춤 필터</summary>
+                    <div class="mobile-filter-body" style="padding:0.6rem; display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:0.5rem; border-top: 1px solid var(--border-color); background: var(--bg-card);">
+                        
+                        <!-- 수리 필터 -->
+                        <div class="mobile-filter-group" style="border-left:3px solid #4f46e5; padding:0.5rem 0.65rem; background: var(--bg-main); border-radius: 0.375rem; border: 1px solid var(--border-color);">
+                            <div class="mobile-filter-group-title" style="color:#4f46e5; font-size:0.75rem; margin-bottom:0.4rem; font-weight:800;">📐 수리 필터 (자연/의약)</div>
+                            <div class="mobile-filter-rows" style="display:flex; flex-direction:column; gap:0.4rem;">
+                                <div class="mobile-filter-row" style="display:flex; align-items:center; justify-content:space-between;">
+                                    <span class="mobile-filter-label" style="color:#dc2626; font-size:0.7rem; font-weight:700; width:35px;">미적</span>
+                                    <div class="mobile-radio-group" style="display:flex; gap:3px;">
+                                        <label class="level-btn" style="font-size:0.68rem; margin:0; padding:3px 6px; cursor:pointer;"><input type="radio" name="mobile-미적" value="무관" checked onchange="handleFilterChange()"><span>무관</span></label>
+                                        <label class="level-btn" style="font-size:0.68rem; margin:0; padding:3px 6px; cursor:pointer;"><input type="radio" name="mobile-미적" value="포함" onchange="handleFilterChange()"><span style="color:#dc2626;font-weight:700;">포함</span></label>
+                                        <label class="level-btn" style="font-size:0.68rem; margin:0; padding:3px 6px; cursor:pointer;"><input type="radio" name="mobile-미적" value="불포함" onchange="handleFilterChange()"><span>제외</span></label>
                                     </div>
                                 </div>
-                                <div class="mobile-filter-row">
-                                    <span class="mobile-filter-label" style="color:#ea580c; font-size:0.65rem;">확통</span>
-                                    <div class="mobile-radio-group">
-                                        <label class="level-btn" style="font-size:0.62rem; margin:0;"><input type="radio" name="확통" value="무관" checked onchange="handleFilterChange()"><span>무관</span></label>
-                                        <label class="level-btn" style="font-size:0.62rem; margin:0;"><input type="radio" name="확통" value="포함" onchange="handleFilterChange()"><span style="color:#ea580c;font-weight:700;">포함</span></label>
-                                        <label class="level-btn" style="font-size:0.62rem; margin:0;"><input type="radio" name="확통" value="불포함" onchange="handleFilterChange()"><span>제외</span></label>
+                                <div class="mobile-filter-row" style="display:flex; align-items:center; justify-content:space-between;">
+                                    <span class="mobile-filter-label" style="color:#ea580c; font-size:0.7rem; font-weight:700; width:35px;">확통</span>
+                                    <div class="mobile-radio-group" style="display:flex; gap:3px;">
+                                        <label class="level-btn" style="font-size:0.68rem; margin:0; padding:3px 6px; cursor:pointer;"><input type="radio" name="mobile-확통" value="무관" checked onchange="handleFilterChange()"><span>무관</span></label>
+                                        <label class="level-btn" style="font-size:0.68rem; margin:0; padding:3px 6px; cursor:pointer;"><input type="radio" name="mobile-확통" value="포함" onchange="handleFilterChange()"><span style="color:#ea580c;font-weight:700;">포함</span></label>
+                                        <label class="level-btn" style="font-size:0.68rem; margin:0; padding:3px 6px; cursor:pointer;"><input type="radio" name="mobile-확통" value="불포함" onchange="handleFilterChange()"><span>제외</span></label>
                                     </div>
                                 </div>
-                                <div class="mobile-filter-row">
-                                    <span class="mobile-filter-label" style="color:#0891b2; font-size:0.65rem;">기하</span>
-                                    <div class="mobile-radio-group">
-                                        <label class="level-btn" style="font-size:0.62rem; margin:0;"><input type="radio" name="기하" value="무관" checked onchange="handleFilterChange()"><span>무관</span></label>
-                                        <label class="level-btn" style="font-size:0.62rem; margin:0;"><input type="radio" name="기하" value="포함" onchange="handleFilterChange()"><span style="color:#0891b2;font-weight:700;">포함</span></label>
-                                        <label class="level-btn" style="font-size:0.62rem; margin:0;"><input type="radio" name="기하" value="불포함" onchange="handleFilterChange()"><span>제외</span></label>
+                                <div class="mobile-filter-row" style="display:flex; align-items:center; justify-content:space-between;">
+                                    <span class="mobile-filter-label" style="color:#0891b2; font-size:0.7rem; font-weight:700; width:35px;">기하</span>
+                                    <div class="mobile-radio-group" style="display:flex; gap:3px;">
+                                        <label class="level-btn" style="font-size:0.68rem; margin:0; padding:3px 6px; cursor:pointer;"><input type="radio" name="mobile-기하" value="무관" checked onchange="handleFilterChange()"><span>무관</span></label>
+                                        <label class="level-btn" style="font-size:0.68rem; margin:0; padding:3px 6px; cursor:pointer;"><input type="radio" name="mobile-기하" value="포함" onchange="handleFilterChange()"><span style="color:#0891b2;font-weight:700;">포함</span></label>
+                                        <label class="level-btn" style="font-size:0.68rem; margin:0; padding:3px 6px; cursor:pointer;"><input type="radio" name="mobile-기하" value="불포함" onchange="handleFilterChange()"><span>제외</span></label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="mobile-filter-group" style="border-left:3px solid #be3a63; padding:0.35rem 0.5rem;">
-                            <div class="mobile-filter-group-title" style="color:#be3a63; font-size:0.68rem; margin-bottom:0.25rem;">📝 언어 필터</div>
-                            <div style="font-size:0.62rem;font-weight:700;color:#be3a63;margin-bottom:0.15rem;">답안 분량</div>
-                            <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:0.3rem;">
-                                <label class="cb-label" style="margin:0;"><input type="checkbox" class="ans-cb" value="장문형" onchange="handleFilterChange()"><span style="font-size:0.62rem; padding:0.15rem 0.35rem;">장문(800+)</span></label>
-                                <label class="cb-label" style="margin:0;"><input type="checkbox" class="ans-cb" value="중문형" onchange="handleFilterChange()"><span style="font-size:0.62rem; padding:0.15rem 0.35rem;">중문(5-800)</span></label>
-                                <label class="cb-label" style="margin:0;"><input type="checkbox" class="ans-cb" value="단문형" onchange="handleFilterChange()"><span style="font-size:0.62rem; padding:0.15rem 0.35rem;">단문(2-500)</span></label>
-                                <label class="cb-label" style="margin:0;"><input type="checkbox" class="ans-cb" value="자유형" onchange="handleFilterChange()"><span style="font-size:0.62rem; padding:0.15rem 0.35rem;">자유</span></label>
+
+                        <!-- 언어 필터 -->
+                        <div class="mobile-filter-group" style="border-left:3px solid #be3a63; padding:0.5rem 0.65rem; background: var(--bg-main); border-radius: 0.375rem; border: 1px solid var(--border-color);">
+                            <div class="mobile-filter-group-title" style="color:#be3a63; font-size:0.75rem; margin-bottom:0.4rem; font-weight:800;">📝 언어 필터 (인문 전용)</div>
+                            <div style="font-size:0.68rem; font-weight:700; color:#be3a63; margin-bottom:0.25rem;">답안 분량</div>
+                            <div style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:0.4rem;">
+                                <label class="cb-label" style="margin:0;"><input type="checkbox" class="mobile-ans-cb" value="장문형" onchange="handleFilterChange()"><span style="font-size:0.65rem; padding:0.2rem 0.45rem;">장문(800+)</span></label>
+                                <label class="cb-label" style="margin:0;"><input type="checkbox" class="mobile-ans-cb" value="중문형" onchange="handleFilterChange()"><span style="font-size:0.65rem; padding:0.2rem 0.45rem;">중문(5-800)</span></label>
+                                <label class="cb-label" style="margin:0;"><input type="checkbox" class="mobile-ans-cb" value="단문형" onchange="handleFilterChange()"><span style="font-size:0.65rem; padding:0.2rem 0.45rem;">단문(2-500)</span></label>
+                                <label class="cb-label" style="margin:0;"><input type="checkbox" class="mobile-ans-cb" value="자유형" onchange="handleFilterChange()"><span style="font-size:0.65rem; padding:0.2rem 0.45rem;">자유</span></label>
                             </div>
-                            <div style="font-size:0.62rem;font-weight:700;color:#be3a63;margin-bottom:0.15rem;">제시문 유형</div>
-                            <div style="display:flex;flex-wrap:wrap;gap:3px;">
-                                <label class="cb-label" style="margin:0;"><input type="checkbox" class="type-cb" value="통계" onchange="handleFilterChange()"><span style="font-size:0.62rem; padding:0.15rem 0.35rem;">통계</span></label>
-                                <label class="cb-label" style="margin:0;"><input type="checkbox" class="type-cb" value="수리" onchange="handleFilterChange()"><span style="font-size:0.62rem; padding:0.15rem 0.35rem;">수리</span></label>
-                                <label class="cb-label" style="margin:0;"><input type="checkbox" class="type-cb" value="영어" onchange="handleFilterChange()"><span style="font-size:0.62rem; padding:0.15rem 0.35rem;">영어</span></label>
+                            <div style="font-size:0.68rem; font-weight:700; color:#be3a63; margin-bottom:0.25rem;">제시문 유형</div>
+                            <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                                <label class="cb-label" style="margin:0;"><input type="checkbox" class="mobile-type-cb" value="통계" onchange="handleFilterChange()"><span style="font-size:0.65rem; padding:0.2rem 0.45rem;">통계</span></label>
+                                <label class="cb-label" style="margin:0;"><input type="checkbox" class="mobile-type-cb" value="수리" onchange="handleFilterChange()"><span style="font-size:0.65rem; padding:0.2rem 0.45rem;">수리</span></label>
+                                <label class="cb-label" style="margin:0;"><input type="checkbox" class="mobile-type-cb" value="영어" onchange="handleFilterChange()"><span style="font-size:0.65rem; padding:0.2rem 0.45rem;">영어</span></label>
                             </div>
                         </div>
-                        <div class="mobile-filter-group" style="border-left:3px solid #6b3fa0; padding:0.35rem 0.5rem;">
-                            <label class="cb-label" style="margin:0;width:100%;">
-                                <input type="checkbox" class="type-cb" value="약술형" onchange="handleFilterChange()">
-                                <span style="font-weight:800;color:#6b3fa0;font-size:0.65rem;padding:0.15rem 0.35rem;">약술형 전형만</span>
+
+                        <!-- 약술형 필터 및 기타 (가로 전체 채우기 가능) -->
+                        <div class="mobile-filter-group" style="grid-column: 1 / -1; border-left:3px solid #6b3fa0; padding:0.5rem 0.65rem; display:flex; flex-direction:row; align-items:center; justify-content:space-between; gap:0.5rem; background: var(--bg-main); border-radius: 0.375rem; border: 1px solid var(--border-color); flex-wrap:wrap;">
+                            <label class="cb-label" style="margin:0; flex:1; min-width:110px;">
+                                <input type="checkbox" class="mobile-type-cb" value="약술형" onchange="handleFilterChange()">
+                                <span style="font-weight:800; color:#6b3fa0; font-size:0.7rem; padding:0.2rem 0.5rem; display:inline-block;">약술형 전형만</span>
                             </label>
+                            <button onclick="openShortPdf()" class="btn-primary"
+                                style="font-size:0.75rem; padding:0.4rem 0.8rem; background-color:#6b3fa0; border-color:#6b3fa0; display:inline-flex; align-items:center; justify-content:center; gap:0.25rem; border-radius:0.375rem; cursor:pointer; color:white; font-weight:700; flex:1; min-width:140px;">
+                                📄 약술형 모아보기 (PDF)
+                            </button>
                         </div>
-                        <button class="mobile-reset-btn" onclick="resetFilters()" style="padding:0.3rem; font-size:0.7rem;">필터 초기화 ↺</button>
+                        
+                        <!-- 초기화 버튼 (가로 전체 채우기) -->
+                        <button class="mobile-reset-btn" onclick="resetFilters()" style="grid-column: 1 / -1; padding:0.5rem; font-size:0.8rem; border-radius:0.5rem; margin-top:0.2rem;">필터 초기화 ↺</button>
                     </div>
                 </details>
                 <div id="mobile-interactive-schedule-table" class="mobile-schedule-wrapper"></div>
@@ -519,8 +531,8 @@
                 </div>
             </div>
 
-            <!-- 탭 2: 계획표 (계획표 + 요약표) -->
-            <div id="mobile-tab-planner" class="mobile-tab-panel" style="display:none;">
+            <!-- 섹션 2: 계획표 (계획표 + 요약표) - 스크롤로 이어짐 -->
+            <div class="mobile-tab-panel" style="margin-top:1.5rem; border-top:2px solid var(--border-color); padding-top:1.25rem;">
                 <div class="mobile-section-header" style="margin-bottom:0.4rem;">
                     <h2>📋 나의 모의 계획표
                         <span id="timetable-count-badge-mobile" style="display:none;font-size:0.72rem;background:#F4C8D2;color:#0F5A43;padding:0.15rem 0.5rem;border-radius:999px;font-weight:700;margin-left:0.4rem;vertical-align:middle;"></span>
@@ -530,35 +542,27 @@
                         <button class="btn-primary" onclick="captureTimetableVertical()" style="font-size:0.75rem;padding:0.4rem 0.6rem;background:#be3a63;border-color:#be3a63;">📷 저장</button>
                     </div>
                 </div>
-                <div class="timetable-tabs" id="timetable-tabs-mobile" style="margin-bottom:0.5rem;flex-wrap:wrap;"></div>
-                <div class="timetable-bg-wrapper" id="timetable-grid-wrapper-mobile" style="overflow-x:auto;"></div>
-                <div class="notice-box" style="margin-top:0.5rem;font-size:0.72rem;padding:0.5rem;">⚠️ 모의 계획용 참고자료입니다. 반드시 각 대학 최종 모집 요강을 확인하세요.</div>
+                <div id="mobile-capture-area" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 0.5rem; padding: 0.6rem;">
+                    <div class="timetable-tabs" id="timetable-tabs-mobile" style="margin-bottom:0.5rem;flex-wrap:wrap;"></div>
+                    <div class="timetable-bg-wrapper" id="timetable-grid-wrapper-mobile" style="overflow-x:auto;"></div>
+                    <div class="notice-box" style="margin-top:0.5rem;font-size:0.72rem;padding:0.5rem;">⚠️ 모의 계획용 참고자료입니다. 반드시 각 대학 최종 모집 요강을 확인하세요.</div>
+                </div>
 
-                <!-- 계획표 바로 밑에 요약표 배치 -->
+                <!-- 계획표 바로 밑에 요약표 배치 (캡처 영역 밖으로 분리) -->
                 <div class="mobile-section-header" style="margin-top:1.25rem; margin-bottom:0.4rem; border-top: 1px dashed var(--border-color); padding-top:0.75rem;">
-                    <h2>📊 모의 지원 요약</h2>
+                    <h2>📊 모의 지원 요약 <span style="font-size:0.68rem;font-weight:500;color:var(--text-muted);">(↕ 드래그/클릭으로 순서 조정)</span></h2>
                 </div>
                 <div class="summary-panel" id="summary-panel-mobile" style="display:none; margin-top:0;">
-                    <div class="summary-title" style="font-size:0.8rem; font-weight:700; margin-bottom:0.4rem;">📊 모의 지원 대학 요약 <span style="font-size:0.68rem;font-weight:500;color:var(--text-muted);">(↕ 드래그/클릭으로 순서 조정)</span></div>
                     <div id="mobile-summary-body" style="overflow-x:auto;"></div>
                 </div>
                 <div style="margin-top:0.4rem;font-size:0.65rem;color:var(--text-muted);padding:0.4rem;background:rgba(99,102,241,0.05);border-radius:0.4rem;border:1px solid rgba(99,102,241,0.15);">
                     📐 수리가중치: [중]=1점 / [중상]=2점 / [상]=3점
                 </div>
             </div>
-        </div>
 
-        <!-- 모바일 하단 탭바 (2개 탭으로 축소) -->
-        <nav class="mobile-bottom-nav">
-            <button id="mobile-nav-schedule" class="mobile-nav-btn active" onclick="switchMobileTab('schedule')" style="flex:1;">
-                <span class="mobile-nav-icon" style="font-size:1.4rem;">📅</span>
-                <span class="mobile-nav-label" style="font-size:0.75rem;">일정표 / 검색</span>
-            </button>
-            <button id="mobile-nav-planner" class="mobile-nav-btn" onclick="switchMobileTab('planner')" style="flex:1;">
-                <span class="mobile-nav-icon" style="font-size:1.4rem;">📋</span>
-                <span class="mobile-nav-label" style="font-size:0.75rem;">계획표 / 요약</span>
-            </button>
-        </nav>
+            <!-- 모바일 푸터 여백 -->
+            <div style="height:2rem;"></div>
+        </div>
     </div>
     <!-- 모바일 레이아웃 끝 -->
 
@@ -798,11 +802,11 @@
         <!-- Floating How-To-Use Guide Widget -->
         <div class="floating-guide-widget no-print" id="guide-widget">
             <button class="guide-toggle-btn" onclick="toggleGuideCard()" id="guide-toggle-btn">
-                💡 사용 가이드
+                💡 사용 설명서
             </button>
             <div class="guide-content-card" id="guide-card">
                 <div class="guide-header">
-                    <span class="guide-title">💡 3단계 사용법 가이드</span>
+                    <span class="guide-title">💡 논술 설계기 사용 설명서 (v4)</span>
                     <button class="guide-close-btn" onclick="toggleGuideCard()">×</button>
                 </div>
                 <div class="guide-steps">
@@ -810,20 +814,20 @@
                     <div class="guide-step">
                         <div class="guide-step-num">1</div>
                         <div class="guide-step-body">
-                            <div class="guide-step-title">대학 탐색 및 담기 (택 1 or 조합)</div>
-                            <div class="guide-step-desc">원하는 대학을 탐색하고 나의 목록에 담습니다.</div>
+                            <div class="guide-step-title">관심 대학 탐색 및 추가</div>
+                            <div class="guide-step-desc">원하는 대학을 검색하거나 필터링하여 시간표에 추가합니다.</div>
                             <div class="guide-step-methods">
                                 <div class="guide-method-item">
-                                    <span class="guide-method-tag">방법 A</span>
-                                    <span><strong>일정표 선택</strong>: 달력의 대학명 클릭 시 즉시 추가</span>
+                                    <span class="guide-method-tag" style="background-color: #0F5A43;">방법 A</span>
+                                    <span><strong>일정표 클릭</strong>: 상단 일정표에서 대학명 즉시 클릭 추가</span>
                                 </div>
                                 <div class="guide-method-item">
-                                    <span class="guide-method-tag">방법 B</span>
-                                    <span><strong>맞춤 필터</strong>: 수리/언어/약술형 필터 조건 검색</span>
+                                    <span class="guide-method-tag" style="background-color: #be3a63;">방법 B</span>
+                                    <span><strong>맞춤 필터</strong>: 수리(미적/확통/기하), 언어(분량/제시문), 약술형 필터</span>
                                 </div>
                                 <div class="guide-method-item">
-                                    <span class="guide-method-tag">방법 C</span>
-                                    <span><strong>대학 검색</strong>: 검색창에 직접 대학명 입력 후 추가</span>
+                                    <span class="guide-method-tag" style="background-color: #4f46e5;">방법 C</span>
+                                    <span><strong>직접 검색</strong>: 검색창에 대학명을 입력해 즉시 탐색</span>
                                 </div>
                             </div>
                         </div>
@@ -835,14 +839,17 @@
                     <div class="guide-step">
                         <div class="guide-step-num">2</div>
                         <div class="guide-step-body">
-                            <div class="guide-step-title">계획표 수정 & 순서 조정</div>
-                            <div class="guide-step-desc">모의 계획표 영역에서 반영 상태와 우선순위를 조율합니다.</div>
+                            <div class="guide-step-title">계획표 비교 및 순서 조정</div>
+                            <div class="guide-step-desc">모의 계획표와 지원 요약 리스트를 조정합니다.</div>
                             <div class="guide-step-methods">
                                 <div class="guide-method-item">
-                                    <span>⚙️ <strong>ON/OFF 토글</strong>: 계획표 반영 여부 실시간 전환</span>
+                                    <span>🔄 <strong>다중 계획표</strong>: <code>＋ 새 시간표</code>로 Plan A/B/C 시나리오 비교</span>
                                 </div>
                                 <div class="guide-method-item">
-                                    <span>↕️ <strong>순서 드래그</strong>: 요약 카드를 끌어(↕) 우선순위 재배치</span>
+                                    <span>⚙️ <strong>ON/OFF 토글</strong>: 겹치는 시험 일정 조율 (요약표 반영 선택)</span>
+                                </div>
+                                <div class="guide-method-item">
+                                    <span>↕️ <strong>순서 조정</strong>: 요약표의 대학 행을 <strong>드래그 & 드롭</strong>해 우선순위 정렬</span>
                                 </div>
                             </div>
                         </div>
@@ -854,14 +861,17 @@
                     <div class="guide-step">
                         <div class="guide-step-num">3</div>
                         <div class="guide-step-body">
-                            <div class="guide-step-title">정렬 및 최종 출력</div>
-                            <div class="guide-step-desc">완성된 지원 일정표와 요약 로드맵을 저장하거나 인쇄합니다.</div>
+                            <div class="guide-step-title">맞춤형 이미지 저장 및 활용</div>
+                            <div class="guide-step-desc">최종 설계안을 원하는 포맷으로 즉시 소장합니다.</div>
                             <div class="guide-step-methods">
                                 <div class="guide-method-item">
-                                    <span>📷 <strong>캡처 저장</strong>: 시간표+요약본을 세로형 PNG 이미지로 저장</span>
+                                    <span>📷 <strong>가로 캡처</strong>: 시간표와 요약표를 좌우로 한눈에 보는 와이드 PNG 저장</span>
                                 </div>
                                 <div class="guide-method-item">
-                                    <span>🖨️ <strong>인쇄 출력</strong>: A4 가로 최적화 포맷 인쇄 및 PDF 저장</span>
+                                    <span>📸 <strong>세로 캡처</strong>: 모바일 소장 및 프린트에 최적화된 긴 세로 PNG 저장</span>
+                                </div>
+                                <div class="guide-method-item">
+                                    <span>📄 <strong>지원 정보</strong>: 백분위 가이드 및 약술형 PDF 정보 연동 활용</span>
                                 </div>
                             </div>
                         </div>

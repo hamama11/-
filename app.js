@@ -276,6 +276,8 @@ async function init() {
         alert('data.csv 파일을 읽지 못했습니다. 파일명과 위치를 확인하세요.');
     }
 
+    loadStateFromLocalStorage();
+
     renderTabs();
     renderActiveTags();
     renderGrid();
@@ -308,17 +310,27 @@ async function init() {
 
 // ===== 필터 값 가져오기 =====
 function getFilters() {
-    const getMathLevel = key => document.querySelector(`input[name="${key}"]:checked`)?.value || '무관';
-    const getChecked = selector => [...document.querySelectorAll(selector + ':checked')].map(c => c.value);
+    const isMobile = document.body.classList.contains('mobile-mode');
+    const containerSelector = isMobile ? '.mobile-only' : '.pc-only';
+    const container = document.querySelector(containerSelector) || document;
 
+    const prefix = isMobile ? 'mobile-' : '';
+    const getMathLevel = key => container.querySelector(`input[name="${prefix}${key}"]:checked`)?.value || '무관';
+    const getChecked = selector => [...container.querySelectorAll(selector + ':checked')].map(c => c.value);
+
+    // 모바일에서는 체크박스 클래스가 다름 (mobile-type-cb, mobile-ans-cb)
+    const typeSelector = isMobile ? '.mobile-type-cb' : '.type-cb';
+    const ansSelector = isMobile ? '.mobile-ans-cb' : '.ans-cb';
+
+    const typeCbChecked = getChecked(typeSelector);
     return {
         계열: '상관없음',
         미적: getMathLevel('미적'),
         확통: getMathLevel('확통'),
         기하: getMathLevel('기하'),
-        제시문유형: getChecked('.type-cb'),
-        답안유형: getChecked('.ans-cb'),
-        약술형만: getChecked('.type-cb').includes('약술형'),
+        제시문유형: typeCbChecked,
+        답안유형: getChecked(ansSelector),
+        약술형만: typeCbChecked.includes('약술형'),
     };
 }
 
@@ -327,27 +339,40 @@ function handleFilterChange() {
     renderGrid();
     renderSummary();
     renderInteractiveSchedule();
+    recommendUniversities(false);
 }
 
 // ===== 필터 초기화 =====
 function resetFilters() {
+    const isMobile = document.body.classList.contains('mobile-mode');
+    const containerSelector = isMobile ? '.mobile-only' : '.pc-only';
+    const container = document.querySelector(containerSelector) || document;
+
+    const prefix = isMobile ? 'mobile-' : '';
     ['미적', '확통', '기하'].forEach(key => {
-        const el = document.querySelector(`input[name="${key}"][value="무관"]`);
+        const el = container.querySelector(`input[name="${prefix}${key}"][value="무관"]`);
         if (el) el.checked = true;
     });
 
-    document.querySelectorAll('.type-cb, .ans-cb').forEach(cb => {
+    const typeSelector = isMobile ? '.mobile-type-cb' : '.type-cb';
+    const ansSelector = isMobile ? '.mobile-ans-cb' : '.ans-cb';
+    container.querySelectorAll(`${typeSelector}, ${ansSelector}`).forEach(cb => {
         cb.checked = false;
     });
     
-    const candidateSection = document.getElementById('candidate-section');
-    if (candidateSection) candidateSection.style.display = 'none';
-
-    const recommendSection = document.getElementById('recommend-section');
-    if (recommendSection) recommendSection.style.display = 'none';
-
-    const searchInput = document.getElementById('univ-search');
-    if (searchInput) searchInput.value = '';
+    if (isMobile) {
+        const mobileCandidateSection = document.getElementById('mobile-candidate-section');
+        if (mobileCandidateSection) mobileCandidateSection.style.display = 'none';
+        const mobileSearchInput = document.getElementById('mobile-univ-search');
+        if (mobileSearchInput) mobileSearchInput.value = '';
+    } else {
+        const candidateSection = document.getElementById('candidate-section');
+        if (candidateSection) candidateSection.style.display = 'none';
+        const recommendSection = document.getElementById('recommend-section');
+        if (recommendSection) recommendSection.style.display = 'none';
+        const searchInput = document.getElementById('univ-search');
+        if (searchInput) searchInput.value = '';
+    }
     
     handleFilterChange();
 }
@@ -731,6 +756,7 @@ function toggleUniv(uniqueKey) {
     renderActiveTags();
     renderGrid();
     renderSummary();
+    saveStateToLocalStorage();
     if (typeof renderInteractiveSchedule === 'function') {
         renderInteractiveSchedule();
     }
@@ -1028,6 +1054,7 @@ function toggleCardOnOff(rowIdx) {
 
     renderGrid();
     renderSummary();
+    saveStateToLocalStorage();
     if (typeof renderInteractiveSchedule === 'function') {
         renderInteractiveSchedule();
     }
@@ -1098,7 +1125,15 @@ function renderSummary() {
     const activeRows = matchingRows.filter(isCardOn);
 
     if (activeRows.length === 0) {
-        panels.forEach(panel => panel.style.display = 'none');
+        bodies.forEach(body => {
+            body.innerHTML = `
+                <div style="text-align: center; padding: 1.5rem; color: var(--text-muted); font-size: 0.85rem; line-height: 1.5;">
+                    💡 선택한 모든 대학 전형이 OFF 상태입니다.<br>
+                    상단의 <strong>계획표 탭</strong>에서 대학 카드를 켜(ON) 주세요!
+                </div>
+            `;
+        });
+        panels.forEach(panel => panel.style.display = 'block');
         return;
     }
 
@@ -1174,7 +1209,7 @@ function renderSummary() {
     const isAsc = state.summarySort.asc;
 
     if (sortCol) {
-        activeRows.sort((a, b) => {
+        matchingRows.sort((a, b) => {
             let valA = a[sortCol] || '';
             let valB = b[sortCol] || '';
 
@@ -1206,15 +1241,30 @@ function renderSummary() {
     }
 
     const getSortIndicator = (col) => {
-        if (state.summarySort.column !== col) return '';
-        return state.summarySort.asc ? ' ▲' : ' ▼';
+        if (state.summarySort.column !== col)
+            return '<span style="opacity:0.28; font-size:0.65rem; margin-left:2px;">↕</span>';
+        return state.summarySort.asc
+            ? '<span style="color:#0F5A43; font-size:0.7rem; font-weight:900; margin-left:2px;">▲</span>'
+            : '<span style="color:#be3a63; font-size:0.7rem; font-weight:900; margin-left:2px;">▼</span>';
     };
+
+    // rows 정의 추가 (이전 ReferenceError 방지 및 논술4 로직으로 동등성 유지)
+    const rows = matchingRows;
+
+    // summary-count-badge 업데이트 (캡처 영역 안에 있어 이미지에 포함됨)
+    const summaryCountBadge = document.getElementById('summary-count-badge');
+    if (summaryCountBadge) {
+        const totalCount = rows.length;
+        const onCount = rows.filter(row => isCardOn(row)).length;
+        summaryCountBadge.textContent = totalCount > 0 ? `${onCount}/${totalCount}` : '';
+        summaryCountBadge.style.display = totalCount > 0 ? 'inline-block' : 'none';
+    }
 
     const tableHtml = `
         <table class="summary-table">
             <thead>
                 <tr>
-                    <th style="text-align:left; white-space:nowrap;">#</th>
+                    <th style="text-align:center; white-space:nowrap; width:36px;"></th>
                     <th style="cursor:pointer; white-space:nowrap;" onclick="sortSummaryTable('대학명')">대학명${getSortIndicator('대학명')}</th>
                     <th style="cursor:pointer;" onclick="sortSummaryTable('모집 및 세부 학과')">계열 / 학과${getSortIndicator('모집 및 세부 학과')}</th>
                     <th style="cursor:pointer; white-space:nowrap;" onclick="sortSummaryTable('고사 일자')">고사 일자${getSortIndicator('고사 일자')}</th>
@@ -1251,7 +1301,7 @@ function renderSummary() {
                         langDisplay = '-';
                     }
 
-                    // 계열 밸지 생성
+                    // 계열 배지 생성
                     const rowTracks = determineTracks(row);
                     const trackBadges = rowTracks.map(t => {
                         if (t === '인문') return '<span style="font-size:0.62rem; font-weight:700; background:rgba(190,58,99,0.1); color:#be3a63; border:1px solid rgba(190,58,99,0.3); border-radius:3px; padding:1px 4px; margin-right:2px; white-space:nowrap;">인문</span>';
@@ -1262,10 +1312,17 @@ function renderSummary() {
 
                     // 역방향으로 uniqueKey 찾기
                     const uKey = active.univs.find(k => k.includes('|' + row['_rowIdx'])) || `${row['대학명']} (${row['모집 및 세부 학과']})|${row['_rowIdx']}`;
+                    const rowIdx = row['_rowIdx'];
+                    const isOn = isCardOn(row);
 
                     return `
-                        <tr draggable="true" data-key="${uKey}">
-                            <td style="text-align:left; color:var(--text-muted); font-size:0.8rem;">${idx + 1}</td>
+                        <tr draggable="true" data-key="${uKey}" class="${isOn ? '' : 'summary-row-off'}" style="${isOn ? '' : 'opacity: 0.55; background-color: #f8fafc;'}">
+                            <td style="text-align:center;" class="no-drag-click">
+                                <button onclick="toggleCardOnOff(${rowIdx}); event.stopPropagation();" 
+                                        style="font-size: 0.58rem; font-weight: 800; padding: 0.1rem 0.3rem; border-radius: 3px; cursor: pointer; border: 1px solid ${isOn ? '#0F5A43' : '#cbd5e1'}; background-color: ${isOn ? '#0F5A43' : '#f1f5f9'}; color: ${isOn ? '#ffffff' : '#64748b'}; width: 34px; line-height: 1.2; text-align: center; display: inline-block; transition: all 0.2s;">
+                                    ${isOn ? 'ON' : 'OFF'}
+                                </button>
+                            </td>
                             <td><strong>${row['대학명']}</strong></td>
                             <td style="font-size:0.78rem; white-space:normal; word-break:break-word; min-width:90px;">${trackBadges}<span style="color:var(--text-muted);">${row['모집 및 세부 학과'] || '-'}</span></td>
                             <td style="text-align:left; font-weight:600; white-space:nowrap;">${row['고사 일자'] || '미정'}</td>
@@ -1545,8 +1602,19 @@ function captureTimetable() {
     const container = document.getElementById('capture-flex-container');
     const leftPanel = document.getElementById('capture-left-panel');
     const rightPanel = document.getElementById('capture-right-panel');
+    const pcWrapper = document.querySelector('.pc-only');
+    const isMobile = document.body.classList.contains('mobile-mode');
 
     if (!area || !container || !leftPanel || !rightPanel) return;
+
+    // [임시] 모바일 모드일 때 보이지 않는 PC 영역을 일시적으로 렌더링하도록 강제 설정 (화면 밖 배치)
+    if (isMobile && pcWrapper) {
+        pcWrapper.style.setProperty('position', 'absolute', 'important');
+        pcWrapper.style.setProperty('left', '-9999px', 'important');
+        pcWrapper.style.setProperty('top', '0', 'important');
+        pcWrapper.style.setProperty('display', 'block', 'important');
+        pcWrapper.style.setProperty('visibility', 'visible', 'important');
+    }
 
     // [0] OFF 카드 임시 숨기기 (캡처 시 ON된 것들만 보이게)
     const offCards = area.querySelectorAll('.timetable-card.off');
@@ -1634,6 +1702,15 @@ function captureTimetable() {
         rightPanel.style.overflow = '';
         area.style.overflow = originalAreaOverflow;
         area.style.width = originalAreaWidth;
+
+        // 임시 렌더링 해제
+        if (isMobile && pcWrapper) {
+            pcWrapper.style.position = '';
+            pcWrapper.style.left = '';
+            pcWrapper.style.top = '';
+            pcWrapper.style.display = '';
+            pcWrapper.style.visibility = '';
+        }
     };
 
     // html2canvas 실행
@@ -1664,8 +1741,19 @@ function captureTimetableVertical() {
     const container = document.getElementById('capture-flex-container');
     const leftPanel = document.getElementById('capture-left-panel');
     const rightPanel = document.getElementById('capture-right-panel');
+    const pcWrapper = document.querySelector('.pc-only');
+    const isMobile = document.body.classList.contains('mobile-mode');
 
     if (!area || !container || !leftPanel || !rightPanel) return;
+
+    // [임시] 모바일 모드일 때 보이지 않는 PC 영역을 일시적으로 렌더링하도록 강제 설정 (화면 밖 배치)
+    if (isMobile && pcWrapper) {
+        pcWrapper.style.setProperty('position', 'absolute', 'important');
+        pcWrapper.style.setProperty('left', '-9999px', 'important');
+        pcWrapper.style.setProperty('top', '0', 'important');
+        pcWrapper.style.setProperty('display', 'block', 'important');
+        pcWrapper.style.setProperty('visibility', 'visible', 'important');
+    }
 
     // [0] OFF 카드 임시 숨기기
     const offCards = area.querySelectorAll('.timetable-card.off');
@@ -1756,6 +1844,15 @@ function captureTimetableVertical() {
         rightPanel.style.overflow = '';
         area.style.overflow = originalAreaOverflow;
         area.style.width = originalAreaWidth;
+
+        // 임시 렌더링 해제
+        if (isMobile && pcWrapper) {
+            pcWrapper.style.position = '';
+            pcWrapper.style.left = '';
+            pcWrapper.style.top = '';
+            pcWrapper.style.display = '';
+            pcWrapper.style.visibility = '';
+        }
     };
 
     // html2canvas 실행
@@ -2289,8 +2386,10 @@ function applyVersion(version) {
         body.classList.remove('pc-mode');
         if (versionBtnPC) versionBtnPC.style.display = 'none';
         if (versionBtnMobile) versionBtnMobile.style.display = 'flex';
-        // 모바일 탭 초기화
-        switchMobileTab('schedule');
+        // 모바일 레이아웃: 스크롤 방식이므로 데이터 렌더링만 호출
+        renderInteractiveSchedule();
+        renderGrid();
+        renderSummary();
     } else {
         body.classList.remove('mobile-mode');
         body.classList.add('pc-mode');
@@ -2306,24 +2405,12 @@ function switchToPC() {
     if (modal) modal.style.display = 'flex';
 }
 
-// ===== 모바일 탭 전환 =====
+// ===== 모바일 탭 전환 (평소에 수동 호출되는 경우를 대비하여 유지) =====
 function switchMobileTab(tabName) {
-    const tabs = ['schedule', 'planner'];
-    tabs.forEach(t => {
-        const panel = document.getElementById(`mobile-tab-${t}`);
-        const btn = document.getElementById(`mobile-nav-${t}`);
-        if (panel) panel.style.display = t === tabName ? 'block' : 'none';
-        if (btn) {
-            btn.classList.toggle('active', t === tabName);
-        }
-    });
-    // 일정표 탭 활성화 시 렌더링
-    if (tabName === 'schedule') {
-        renderInteractiveSchedule();
-    } else if (tabName === 'planner') {
-        renderGrid();
-        renderSummary();
-    }
+    // 스크롤 방식으로 변경되었으므로 패널 표시/숨김 처리없이 렌더링만 수행
+    renderInteractiveSchedule();
+    renderGrid();
+    renderSummary();
 }
 
 function toggleGuideCard() {
@@ -2526,20 +2613,28 @@ function renderInteractiveSchedule() {
                         active.univs.includes(`${uName} (${trackType})|${tr._rowIdx}`) || 
                         active.univs.includes(`${uName} (${trackType})`)
                     );
+                    
+                    // 수동 오버라이드로 꺼진 카드가 있는지 점검
+                    const isManualOff = matches.some(tr => active.manualOverrides[tr._rowIdx] === false);
+                    const isReallyOn = isAdded && !isManualOff;
+
                     const isMatched = matches.some(tr => rowMatchesFilter(tr, f));
 
                     const colorVal = getUnivTextColor(uName);
                     const c = meta.color;
-                    let btnStyle = isAdded
+                    
+                    let btnStyle = isReallyOn
                         ? `background:${c};color:#fff;border-color:${c};`
-                        : `background:transparent;color:${colorVal};border-color:${colorVal};`;
+                        : isAdded
+                            ? `background:rgba(226,226,226,0.3);color:#aaa;border-color:#ccc;text-decoration:line-through;`
+                            : `background:transparent;color:${colorVal};border-color:${colorVal};`;
                     
                     if (!isMatched) {
                         btnStyle += isAdded ? 'opacity:0.8;' : 'opacity:0.25;filter:grayscale(60%);';
                     }
 
                     buttons.push(
-                        `<button class="sched-btn${isAdded ? ' sched-btn--on' : ''}" style="${btnStyle}" onclick="toggleUnivAndRenderSchedule('${uName.replace(/'/g, "\\'")}', '${trackType}', '${date.replace(/'/g, "\\'")}')">${displayLabel}${isAdded ? ' ✓' : ''}</button>`
+                        `<button class="sched-btn${isReallyOn ? ' sched-btn--on' : ''}" style="${btnStyle}" onclick="toggleUnivAndRenderSchedule('${uName.replace(/'/g, "\\'")}', '${trackType}', '${date.replace(/'/g, "\\'")}')">${displayLabel}${isReallyOn ? ' ✓' : ''}</button>`
                     );
                 });
 
@@ -2622,19 +2717,28 @@ function renderInteractiveSchedule() {
                         active.univs.includes(`${uName} (${trackType})|${tr._rowIdx}`) || 
                         active.univs.includes(`${uName} (${trackType})`)
                     );
+                    
+                    // 수동 오버라이드로 꺼진 카드가 있는지 점검
+                    const isManualOff = matches.some(tr => active.manualOverrides[tr._rowIdx] === false);
+                    const isReallyOn = isAdded && !isManualOff;
+
                     const isMatched = matches.some(tr => rowMatchesFilter(tr, f));
 
                     const colorVal = getUnivTextColor(uName);
                     const c = meta.color;
-                    let btnStyle = isAdded
+                    
+                    let btnStyle = isReallyOn
                         ? `background:${c};color:#fff;border-color:${c};`
-                        : `background:transparent;color:${colorVal};border-color:${colorVal};`;
+                        : isAdded
+                            ? `background:rgba(226,226,226,0.3);color:#aaa;border-color:#ccc;text-decoration:line-through;`
+                            : `background:transparent;color:${colorVal};border-color:${colorVal};`;
+                            
                     if (!isMatched) {
                         btnStyle += isAdded ? 'opacity:0.8;' : 'opacity:0.25;filter:grayscale(60%);';
                     }
 
                     buttons.push(
-                        `<button class="sched-btn-block${isAdded ? ' sched-btn-block--on' : ''}" style="${btnStyle}" onclick="toggleUnivAndRenderSchedule('${uName.replace(/'/g, "\\'")}', '${trackType}', '${date.replace(/'/g, "\\'")}')">${displayLabel}${isAdded ? '✓' : ''}</button>`
+                        `<button class="sched-btn-block${isReallyOn ? ' sched-btn-block--on' : ''}" style="${btnStyle}" onclick="toggleUnivAndRenderSchedule('${uName.replace(/'/g, "\\'")}', '${trackType}', '${date.replace(/'/g, "\\'")}')">${displayLabel}${isReallyOn ? ' ✓' : ''}</button>`
                     );
                 });
                 return `<td class="sched-cell" style="background:${meta.bg}; padding: 0.1rem 0.05rem; text-align: center;"><div style="display: flex; flex-wrap: wrap; gap: 1px; justify-content: center; align-items: flex-start; min-height: 28px;">${buttons.join('')}</div></td>`;
@@ -2783,16 +2887,38 @@ function toggleUnivAndRenderSchedule(uName, trackType, date) {
     if (targetRows.length === 0) return;
 
     const keys = targetRows.map(r => `${uName} (${trackType})|${r._rowIdx}`);
-    const anyAdded = keys.some(k => active.univs.includes(k));
+    const baseKey = `${uName} (${trackType})`;
+    
+    // keys 중 하나라도 이미 들어있거나 baseKey 자체가 들어있는지 검사
+    const anyAdded = keys.some(k => active.univs.includes(k)) || active.univs.includes(baseKey);
 
     if (anyAdded) {
+        // 이미 들어있다면 제거 로직
         keys.forEach(k => {
-            const idx = active.univs.indexOf(k);
+            let idx = active.univs.indexOf(k);
             if (idx > -1) active.univs.splice(idx, 1);
+            
+            // 수동 오버라이드 초기화
+            const match = k.match(/\|(\d+)$/);
+            if (match) {
+                const rIdx = parseInt(match[1]);
+                delete active.manualOverrides[rIdx];
+            }
         });
+        
+        let baseIdx = active.univs.indexOf(baseKey);
+        if (baseIdx > -1) active.univs.splice(baseIdx, 1);
     } else {
+        // 들어있지 않다면 추가 로직 (달력에서는 개별 ID 형태로 정밀하게 추가)
         keys.forEach(k => {
             if (!active.univs.includes(k)) active.univs.push(k);
+            
+            // 수동 오버라이드도 클리어하여 기본 ON 상태로 복원
+            const match = k.match(/\|(\d+)$/);
+            if (match) {
+                const rIdx = parseInt(match[1]);
+                delete active.manualOverrides[rIdx];
+            }
         });
     }
 
@@ -2800,6 +2926,7 @@ function toggleUnivAndRenderSchedule(uName, trackType, date) {
     renderGrid();
     renderSummary();
     recommendUniversities(false);
+    saveStateToLocalStorage();
     renderInteractiveSchedule();
 }
 
@@ -2819,6 +2946,33 @@ function toggleScheduleImage() {
     } else {
         content.style.display = 'none';
         if (arrow) arrow.style.transform = 'rotate(0deg)';
+    }
+}
+
+// ===== 로컬스토리지 상태 관리 헬퍼 =====
+function saveStateToLocalStorage() {
+    try {
+        localStorage.setItem('nulsul_state', JSON.stringify({
+            timetables: state.timetables,
+            activeTimetableId: state.activeTimetableId,
+            scheduleTranspose: state.scheduleTranspose
+        }));
+    } catch (e) {
+        console.error('로컬스토리지 저장 실패:', e);
+    }
+}
+
+function loadStateFromLocalStorage() {
+    try {
+        const saved = localStorage.getItem('nulsul_state');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            if (parsed.timetables) state.timetables = parsed.timetables;
+            if (parsed.activeTimetableId !== undefined) state.activeTimetableId = parsed.activeTimetableId;
+            if (parsed.scheduleTranspose !== undefined) state.scheduleTranspose = parsed.scheduleTranspose;
+        }
+    } catch (e) {
+        console.error('로컬스토리지 복구 실패:', e);
     }
 }
 
