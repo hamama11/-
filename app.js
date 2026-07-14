@@ -1532,6 +1532,7 @@ window.closeWelcomeModal = closeWelcomeModal;
 window.toggleGuideCard = toggleGuideCard;
 window.selectVersion = selectVersion;
 window.switchToPC = switchToPC;
+window.switchToMobile = switchToMobile;
 window.switchMobileTab = switchMobileTab;
 window.addAllRecommend = addAllRecommend;
 window.searchCandidatesMobile = searchCandidatesMobile;
@@ -2399,10 +2400,11 @@ function applyVersion(version) {
 }
 
 function switchToPC() {
-    localStorage.removeItem('nulsul_version');
-    showWelcomeModal();
-    const modal = document.getElementById('welcome-modal');
-    if (modal) modal.style.display = 'flex';
+    selectVersion('pc');
+}
+
+function switchToMobile() {
+    selectVersion('mobile');
 }
 
 // ===== 모바일 탭 전환 (평소에 수동 호출되는 경우를 대비하여 유지) =====
