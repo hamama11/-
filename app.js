@@ -276,7 +276,8 @@ async function init() {
         alert('data.csv 파일을 읽지 못했습니다. 파일명과 위치를 확인하세요.');
     }
 
-    loadStateFromLocalStorage();
+    // 첫 화면 진입 시 아무것도 클릭되어 있지 않은 초기 상태로 시작되도록 로컬스토리지 로드를 생략합니다.
+    // loadStateFromLocalStorage();
 
     renderTabs();
     renderActiveTags();
