@@ -2356,13 +2356,7 @@ function showWelcomeModal() {
     const modal = document.getElementById('welcome-modal');
     if (!modal) return;
 
-    // localStorage에 저장된 버전 설정이 있으면 바로 적용하고 모달 건너뜀
-    const savedVersion = localStorage.getItem('nulsul_version');
-    if (savedVersion) {
-        applyVersion(savedVersion);
-        return;
-    }
-
+    // 첫 진입 시 항상 선택 팝업이 뜨도록 강제합니다.
     modal.style.display = 'flex';
 }
 
