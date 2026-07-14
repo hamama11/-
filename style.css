@@ -1,0 +1,1722 @@
+/* style2.css */
+/* Digital font for D-Day counter */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap');
+:root {
+    --bg-main: #FFF7FA;
+    --bg-card: #FFFFFF;
+    --bg-input: #FFFFFF;
+    --text-main: #0F5A43;
+    --text-muted: #9B9B9B;
+    --primary: #0F5A43;
+    --primary-hover: #0a3d2e;
+    --accent-green: #0F5A43;
+    --accent-red: #b91c1c;
+    --border-color: #F4C8D2;
+    --font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: var(--font-family);
+    line-height: 1.5;
+    padding: 2rem 1rem;
+}
+
+.app-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.app-header {
+    background: transparent !important;
+    color: var(--text-main) !important;
+    padding: 2.5rem 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    margin-bottom: 2rem !important;
+}
+
+.app-header h1 {
+    color: var(--text-main) !important;
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.app-header p {
+    color: var(--text-muted) !important;
+}
+
+.main-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+}
+
+.filter-panel {
+    background-color: var(--bg-card);
+    border-radius: 1.25rem;
+    padding: 1.1rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 6px 20px rgba(15, 90, 67, 0.04);
+}
+
+.timetable-area {
+    background-color: var(--bg-card);
+    border-radius: 1.25rem;
+    padding: 1.75rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 6px 20px rgba(15, 90, 67, 0.04);
+}
+
+.panel-section {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.panel-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.section-num {
+    background-color: var(--primary);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.section-title h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.search-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"] {
+    flex: 1;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 0.6rem 0.8rem;
+    border-radius: 0.5rem;
+    outline: none;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+input[type="text"]:focus {
+    border-color: var(--primary);
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 0.75rem;
+    padding: 0.65rem 1.25rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: #F4C8D2;
+    color: #0F5A43;
+    border: 1px solid #F4C8D2;
+}
+
+.btn-secondary:hover {
+    background-color: #e8b2bd;
+    transform: translateY(-1px);
+}
+
+.search-hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Tags */
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.tag {
+    background-color: var(--bg-input);
+    color: var(--text-main);
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.tag-remove {
+    cursor: pointer;
+    color: var(--accent-red);
+    font-weight: bold;
+}
+
+/* Track selector */
+.track-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+}
+
+.track-btn {
+    position: relative;
+    cursor: pointer;
+}
+
+.track-btn input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.track-btn span {
+    display: block;
+    text-align: center;
+    background-color: var(--bg-input);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.track-btn input:checked + span {
+    background-color: var(--primary);
+    border-color: #818cf8;
+    color: white;
+}
+
+/* Factors input */
+.factor-group {
+    background-color: rgba(255, 255, 255, 0.03);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.factor-group-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.25rem;
+}
+
+.burden-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.burden-name {
+    font-size: 0.85rem;
+}
+
+.level-selector {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.level-btn {
+    position: relative;
+    cursor: pointer;
+}
+
+.level-btn input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.level-btn span {
+    display: block;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--bg-input);
+    border-radius: 0.25rem;
+    min-width: 32px;
+    text-align: center;
+}
+
+.level-btn input:checked + span {
+    background-color: var(--primary);
+    color: white;
+}
+
+.checkbox-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.cb-label {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.cb-label input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.cb-label span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--bg-input);
+    border-radius: 0.25rem;
+    text-align: center;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.cb-label input:checked + span {
+    background-color: var(--primary);
+    color: white;
+}
+
+
+/* Recommendation Results */
+.candidate-area {
+    margin-top: 1rem;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.candidate-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.candidate-item {
+    background-color: var(--bg-input);
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: background 0.2s;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.candidate-item:hover {
+    background-color: var(--border-color);
+}
+
+.candidate-info {
+    font-size: 0.85rem;
+}
+
+.candidate-add-icon {
+    color: var(--accent-green);
+    font-weight: bold;
+}
+
+/* Timetable Area */
+.timetable-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.timetable-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.tab-btn {
+    background: transparent;
+    color: var(--text-muted);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.tab-btn.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+/* Table grid */
+.tt-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.tt-table th, .tt-table td {
+    border: 1px solid var(--border-color);
+    padding: 0.75rem;
+    text-align: center;
+    vertical-align: top;
+}
+
+.tt-table th {
+    background-color: var(--bg-input);
+    font-weight: 700;
+}
+
+.date-cell {
+    font-weight: 600;
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.cell-stack {
+    position: relative;
+    padding-bottom: 8px;
+}
+.cell-stack .timetable-card:not(:first-child) {
+    margin-top: -15px;
+    margin-left: calc(var(--stack-idx, 0) * 4px);
+}
+.timetable-card.overlap {
+    border-left-color: var(--accent-red) !important;
+}
+
+/* TIMETABLE CARDS WITH ON/OFF SWITCH */
+.timetable-card {
+    background-color: var(--bg-card);
+    border-radius: 0.5rem;
+    padding: 0.4rem 0.55rem;
+    text-align: left;
+    position: relative;
+    border: 1px solid #F4C8D2;
+    border-left: 4px solid var(--primary);
+    transition: opacity 0.2s, transform 0.2s;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(15, 90, 67, 0.03);
+}
+
+.timetable-card.off {
+    opacity: 0.45;
+    border-left-color: var(--text-muted);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.1rem;
+}
+
+.card-univ {
+    font-weight: bold;
+    font-size: 0.75rem;
+}
+
+.card-toggle {
+    font-size: 0.65rem;
+    background-color: var(--border-color);
+    padding: 0.05rem 0.25rem;
+    border-radius: 0.2rem;
+    color: var(--text-main);
+}
+
+.timetable-card.off .card-toggle {
+    background-color: var(--bg-main);
+    color: var(--text-muted);
+}
+
+.card-track {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-bottom: 0.05rem;
+}
+
+.card-time {
+    font-size: 0.65rem;
+    color: #475569;
+}
+
+.card-remove {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+    color: var(--accent-red);
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0 0.25rem;
+    font-size: 0.9rem;
+    display: none;
+}
+
+.timetable-card:hover .card-remove {
+    display: block;
+}
+
+/* Conflict styling */
+.row-conflict {
+    background-color: rgba(244, 63, 94, 0.05);
+}
+
+.conflict-badge {
+    display: inline-block;
+    background-color: var(--accent-red);
+    color: white;
+    font-size: 0.65rem;
+    padding: 0.1rem 0.3rem;
+    border-radius: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Summary Box */
+.summary-panel {
+    margin-top: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.02);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px dashed var(--border-color);
+}
+
+.summary-title {
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.75rem;
+}
+
+.summary-card {
+    background-color: var(--bg-input);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border-left: 3px solid var(--accent-green);
+    font-size: 0.8rem;
+}
+
+.summary-card.off {
+    border-left-color: var(--text-muted);
+    opacity: 0.5;
+}
+
+.summary-univ {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+/* Summary Table */
+.summary-table {
+    width: auto;
+    min-width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    table-layout: auto;
+}
+
+.summary-table th {
+    background: linear-gradient(135deg, #f0fdf4 0%, #fdf2f6 100%);
+    color: var(--text-main);
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.45rem;
+    border: 1px solid var(--border-color);
+    text-align: left;
+    white-space: nowrap;
+    line-height: 1.3;
+}
+
+.summary-table td {
+    padding: 0.35rem 0.45rem;
+    border: 1px solid #f0e8ed;
+    vertical-align: middle;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.summary-table tbody tr:nth-child(even) {
+    background-color: #fdf9fb;
+}
+
+.summary-table tbody tr {
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.summary-table tbody tr.dragging {
+    opacity: 0.5;
+    background-color: #f3f4f6 !important;
+}
+
+.summary-table tbody tr.selected-row-for-move {
+    background-color: #fef3c7 !important; /* 연한 노란색 하이라이트 */
+    outline: 2px solid #f59e0b;
+    outline-offset: -2px;
+}
+
+.summary-table tbody tr:hover {
+    background-color: #fdf2f6;
+}
+
+
+.summary-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 999px;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+.badge-math {
+    background-color: #818cf8;
+    color: white;
+}
+
+.badge-min {
+    background-color: #f59e0b;
+    color: white;
+    font-size: 0.68rem;
+    padding: 2px 6px;
+    border-radius: 0.3rem;
+    white-space: nowrap;
+    display: inline-block;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.notice-box {
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    background-color: rgba(255, 255, 255, 0.01);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+}
+
+@media print {
+    body {
+        background-color: white !important;
+        color: black !important;
+        padding: 0 !important;
+    }
+    .app-header, .filter-panel, .app-footer, .notice-box, button, .timetable-tabs {
+        display: none !important;
+    }
+    .main-layout {
+        display: block !important;
+    }
+    .timetable-area {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+    .tt-table th {
+        background-color: #f1f5f9 !important;
+        color: black !important;
+    }
+    .timetable-card {
+        border: 1px solid var(--border-color) !important;
+        background: #f8fafc !important;
+    }
+    .timetable-card.off {
+        display: none !important; /* OFF로 설정된 카드는 인쇄 시 숨김 */
+    }
+}
+
+/* Contact Popover Hover Styles */
+.contact-popover-wrapper:hover .contact-popover {
+    display: flex !important;
+}
+
+/* === shiny-text (footer badge) === */
+@keyframes shiny {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.shiny-text {
+    background-color: #F4C8D2 !important;
+    color: #0F5A43 !important;
+    -webkit-text-fill-color: #0F5A43 !important;
+    padding: 0.2rem 0.5rem !important;
+    border-radius: 0.375rem !important;
+    font-weight: 800 !important;
+    display: inline-block !important;
+    box-shadow: 0 2px 4px rgba(15, 90, 67, 0.05) !important;
+}
+
+/* === Success Shine Animation === */
+@keyframes success-shine-move {
+    0%   { background-position: -220% center; }
+    55%  { background-position: 220% center; }
+    100% { background-position: 220% center; }
+}
+
+@keyframes sparkle-pop {
+    0%, 100% { opacity: 0;   transform: scale(0.5) translateY(-1px) rotate(-10deg); }
+    35%       { opacity: 1;   transform: scale(1.2) translateY(-5px) rotate(5deg); }
+    55%       { opacity: 0.6; transform: scale(0.9) translateY(-3px) rotate(0deg); }
+}
+
+.success-shine {
+    position: relative;
+    display: inline-block;
+    font-weight: 800;
+    /* 핑크 재조합: 딥핑크→로즈→샴페인 골드→로즈→딥핑크 */
+    background: linear-gradient(
+        105deg,
+        #C2547A 0%,
+        #C2547A 20%,
+        #E8A0B8 35%,
+        #F7E0C0 50%,
+        #E8A0B8 65%,
+        #C2547A 80%,
+        #C2547A 100%
+    );
+    background-size: 260% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: success-shine-move 3s ease-in-out infinite;
+}
+
+.success-shine::after {
+    content: '✦';
+    position: absolute;
+    top: -0.35em;
+    right: -0.8em;
+    font-size: 0.5em;
+    color: #E8A0B8;
+    -webkit-text-fill-color: #E8A0B8;
+    animation: sparkle-pop 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* === D-Day Digital Font === */
+#dday-numbers {
+    font-family: 'Orbitron', 'Courier New', monospace !important;
+    letter-spacing: 0.08em;
+}
+
+/* === Timetable grid background image (screen + print) === */
+.timetable-bg-wrapper {
+    position: relative;
+    min-height: 200px;
+    overflow-x: auto;
+}
+.timetable-bg-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('image.png') no-repeat center center;
+    background-size: contain;
+    opacity: 0.07;
+    pointer-events: none;
+    z-index: 0;
+}
+.timetable-bg-wrapper > * {
+    position: relative;
+    z-index: 1;
+}
+
+@media print {
+    .timetable-bg-wrapper::before {
+        opacity: 0.07 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* === Character Float Animation === */
+@keyframes char-float {
+    0%   { transform: translateY(0px) rotate(-1deg); }
+    25%  { transform: translateY(-8px) rotate(0deg); }
+    50%  { transform: translateY(-12px) rotate(1deg); }
+    75%  { transform: translateY(-6px) rotate(0deg); }
+    100% { transform: translateY(0px) rotate(-1deg); }
+}
+
+@keyframes char-shadow-pulse {
+    0%, 100% { transform: scaleX(1);    opacity: 0.18; }
+    50%       { transform: scaleX(0.75); opacity: 0.08; }
+}
+
+.character-float-wrapper {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.character-float-img {
+    height: 110px;
+    width: auto;
+    object-fit: contain;
+    animation: char-float 3.2s ease-in-out infinite;
+    filter: drop-shadow(0 8px 10px rgba(194, 84, 122, 0.18));
+    transform-origin: bottom center;
+}
+
+.character-float-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(1);
+    width: 80%;
+    height: 8px;
+    background: radial-gradient(ellipse, rgba(194, 84, 122, 0.22) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: char-shadow-pulse 3.2s ease-in-out infinite;
+}
+
+@media print {
+    .character-float-wrapper { display: none; }
+
+    /* 인쇄 시 배경/색상 보존 */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* 인쇄 시 숨길 영역 */
+    .app-header,
+    .schedule-collapse-container,
+    .filter-panel,
+    .notice-box,
+    .app-footer,
+    .timetable-tabs,
+    .timetable-header button,
+    .no-print,
+    #welcome-modal,
+    #fortune-modal {
+        display: none !important;
+    }
+
+    /* 캡처 영역 인쇄 시 명시적 표시 */
+    #capture-area,
+    #capture-flex-container,
+    #capture-left-panel,
+    #capture-right-panel {
+        display: block !important;
+        width: 100% !important;
+        overflow: visible !important;
+        max-height: none !important;
+    }
+
+    /* 스크롤 wrapper overflow 인쇄 시 해제 */
+    .timetable-bg-wrapper {
+        overflow: visible !important;
+        max-height: none !important;
+        width: 100% !important;
+    }
+
+    #summary-body {
+        overflow-x: visible !important;
+        overflow: visible !important;
+    }
+
+    /* 요약 패널 인쇄 시 항상 표시 */
+    #summary-panel {
+        display: block !important;
+    }
+
+    /* main-layout: 왼쪽 패널 숨기고 오른쪽만 표시 */
+    .main-layout {
+        display: block !important;
+    }
+
+    .filter-panel {
+        display: none !important;
+    }
+
+    /* 전체 배경 흰색 */
+    body {
+        background: white !important;
+        padding: 0.5rem !important;
+    }
+
+    .app-wrapper {
+        max-width: 100% !important;
+    }
+
+    .timetable-area {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0.5rem !important;
+        width: 100% !important;
+    }
+
+    /* 시간표 제목은 보이게 */
+    .timetable-header {
+        display: flex !important;
+        margin-bottom: 0.75rem;
+    }
+
+    /* 테이블 인쇄 최적화 */
+    .tt-table {
+        width: 100% !important;
+        font-size: 0.8rem !important;
+        border-collapse: collapse !important;
+    }
+
+    .tt-table th,
+    .tt-table td {
+        border: 1px solid #ccc !important;
+        padding: 0.3rem !important;
+        vertical-align: top !important;
+    }
+
+    /* 카드 인쇄 최적화 */
+    .timetable-card {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+        margin-bottom: 4px !important;
+        padding: 0.4rem !important;
+    }
+
+    /* OFF 카드는 인쇄에서 숨기기 */
+    .timetable-card.off {
+        display: none !important;
+    }
+
+    /* 카드 상세 정보 (수리/언어논술) 인쇄 시 표시 */
+    .card-print-detail {
+        display: block !important;
+        font-size: 0.68rem !important;
+        color: #444 !important;
+        margin-top: 2px !important;
+    }
+
+    /* 배지 색상 강제 출력 */
+    [style*="background-color:#818cf8"],
+    [style*="background-color:#f43f5e"],
+    [style*="background-color:#f59e0b"] {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* 요약 패널 인쇄 최적화 */
+    .summary-panel {
+        margin-top: 1rem !important;
+        break-before: auto !important;
+    }
+
+    .summary-card {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+    }
+
+    /* 인쇄 시 요약 테이블 A4에 맞게 압축 */
+    .summary-table {
+        width: 100% !important;
+        table-layout: fixed !important;
+        font-size: 0.6rem !important;
+        word-break: break-word !important;
+    }
+
+    .summary-table th,
+    .summary-table td {
+        padding: 0.2rem 0.25rem !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        font-size: 0.6rem !important;
+    }
+
+    /* 인쇄용 요약표 열 너비 고정 */
+    .summary-table th:nth-child(1),
+    .summary-table td:nth-child(1) { width: 22px !important; }
+    .summary-table th:nth-child(2),
+    .summary-table td:nth-child(2) { width: 52px !important; }
+    .summary-table th:nth-child(3),
+    .summary-table td:nth-child(3) { width: 90px !important; }
+    .summary-table th:nth-child(4),
+    .summary-table td:nth-child(4) { width: 52px !important; }
+    .summary-table th:nth-child(5),
+    .summary-table td:nth-child(5) { width: 72px !important; }
+    .summary-table th:nth-child(6),
+    .summary-table td:nth-child(6) { width: 90px !important; }
+    .summary-table th:nth-child(7),
+    .summary-table td:nth-child(7) { width: 85px !important; }
+    .summary-table th:nth-child(8),
+    .summary-table td:nth-child(8) { width: 90px !important; }
+    .summary-table th:nth-child(9),
+    .summary-table td:nth-child(9) { width: 50px !important; }
+
+    /* 시간표 테이블 인쇄 압축 */
+    .tt-table {
+        font-size: 0.68rem !important;
+    }
+    .tt-table th, .tt-table td {
+        padding: 0.2rem 0.25rem !important;
+    }
+    .timetable-card {
+        font-size: 0.65rem !important;
+        padding: 0.3rem !important;
+    }
+
+    /* 페이지 여백 설정 */
+    @page {
+        margin: 1.2cm 1cm;
+        size: A4 portrait;
+    }
+}
+
+/* Floating Guide Widget */
+.floating-guide-widget {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1999;
+    font-family: var(--font-family);
+}
+
+.guide-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--primary);
+    color: #ffffff;
+    border: 2px solid var(--border-color);
+    padding: 0.8rem 1.4rem;
+    border-radius: 999px;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(15, 90, 67, 0.3);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.9rem;
+}
+
+.guide-toggle-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(15, 90, 67, 0.4);
+}
+
+.guide-content-card {
+    position: absolute;
+    bottom: 4rem;
+    right: 0;
+    width: 380px;
+    max-width: 90vw;
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    padding: 1.25rem;
+    display: none;
+    flex-direction: column;
+    gap: 0.85rem;
+    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.guide-content-card.active {
+    display: flex;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.guide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.guide-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.guide-close-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: color 0.2s;
+    line-height: 1;
+}
+
+.guide-close-btn:hover {
+    color: var(--text-main);
+}
+
+.guide-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.guide-step {
+    display: flex;
+    gap: 0.65rem;
+    align-items: flex-start;
+}
+
+.guide-step-num {
+    background: #F6C9D6;
+    color: var(--primary);
+    font-weight: 800;
+    font-size: 0.8rem;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.guide-step-body {
+    flex: 1;
+}
+
+.guide-step-title {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--text-main);
+    margin-bottom: 0.2rem;
+}
+
+.guide-step-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.guide-step-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-top: 0.4rem;
+    background: rgba(246, 201, 214, 0.2);
+    padding: 0.4rem 0.5rem;
+    border-radius: 0.375rem;
+}
+
+.guide-method-item {
+    font-size: 0.72rem;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.guide-method-tag {
+    font-size: 0.62rem;
+    background: var(--primary);
+    color: #ffffff;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.guide-step-arrow {
+    text-align: center;
+    color: var(--border-color);
+    font-size: 0.8rem;
+    margin: -0.25rem 0;
+}
+
+@media print {
+    .floating-guide-widget {
+        display: none !important;
+    }
+}
+
+/* ============================================
+   PC / 모바일 버전 표시 제어
+   ============================================ */
+
+/* 기본: 둘 다 숨김 → JS가 버전 선택 후 적용 */
+.pc-only { display: block; }
+.mobile-only { display: none; }
+
+/* PC 버전 선택 시 */
+body.pc-mode .pc-only { display: block; }
+body.pc-mode .mobile-only { display: none; }
+
+/* 모바일 버전 선택 시 */
+body.mobile-mode .pc-only { display: none; }
+body.mobile-mode .mobile-only { display: block; }
+
+/* 버전 미선택 시 기본 PC 뷰 표시 */
+body:not(.pc-mode):not(.mobile-mode) .pc-only { display: block; }
+body:not(.pc-mode):not(.mobile-mode) .mobile-only { display: none; }
+
+/* ============================================
+   버전 전환 플로팅 버튼
+   ============================================ */
+.version-switch-btn {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 3000;
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(15, 90, 67, 0.15);
+    transition: all 0.2s;
+    color: var(--text-main);
+    font-family: var(--font-family);
+}
+.version-switch-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(15, 90, 67, 0.2);
+}
+
+.version-switch-btn-mobile {
+    position: fixed;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 3000;
+    background: rgba(255,255,255,0.92);
+    border: 1.5px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 0.4rem 0.7rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(15, 90, 67, 0.12);
+    transition: all 0.2s;
+    color: var(--text-main);
+    font-family: var(--font-family);
+}
+.version-switch-btn-mobile:hover {
+    background: var(--border-color);
+}
+
+/* ============================================
+   모바일 레이아웃
+   ============================================ */
+.mobile-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    background: var(--bg-main);
+    font-family: var(--font-family);
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+/* 모바일 헤더 */
+.mobile-header {
+    background: linear-gradient(135deg, #0F5A43 0%, #1a6b44 50%, #0F5A43 100%);
+    padding: 0.85rem 1rem 0.75rem;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(15, 90, 67, 0.3);
+}
+
+.mobile-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.6rem;
+}
+
+.mobile-header-title h1 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: white;
+    margin: 0 0 0.1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.mobile-header-title p {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.75);
+    margin: 0;
+}
+
+.mobile-sm-badge {
+    font-size: 0.65rem;
+    background: #F6C9D6;
+    color: #0B5D45;
+    padding: 0.1rem 0.4rem;
+    border-radius: 999px;
+    font-weight: 700;
+}
+
+.mobile-header-actions {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    margin-top: 0.1rem;
+    padding-right: 3.5rem; /* version-btn-mobile 공간 확보 */
+}
+
+.mobile-icon-btn {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 0.5rem;
+    padding: 0.4rem 0.55rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: white;
+    line-height: 1;
+}
+.mobile-icon-btn:hover {
+    background: rgba(255,255,255,0.22);
+}
+
+/* D-Day 카드 (모바일) */
+.mobile-dday {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(246,201,214,0.25);
+    border-radius: 0.5rem;
+    padding: 0.4rem 0.75rem;
+}
+
+.mobile-dday-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #F6C9D6;
+    white-space: nowrap;
+}
+
+.mobile-dday-counter {
+    font-family: 'Orbitron', 'Courier New', monospace;
+    font-size: 1.1rem;
+    font-weight: 900;
+    background: linear-gradient(90deg, #ef4444, #d946ef, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    flex: 1;
+    text-align: center;
+    letter-spacing: 0.05em;
+}
+
+.mobile-dday-date {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #F6C9D6;
+    white-space: nowrap;
+}
+
+/* 콘텐츠 영역 */
+.mobile-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.75rem 0.75rem;
+    padding-bottom: 5.5rem; /* 하단 탭바 높이 확보 */
+}
+
+/* 탭 패널 */
+.mobile-tab-panel {
+    animation: fadeInUp 0.2s ease-out;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 섹션 헤더 */
+.mobile-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.mobile-section-header h2 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 0;
+}
+
+/* 칩 버튼 */
+.mobile-chip-btn {
+    background: var(--border-color);
+    color: var(--text-main);
+    border: none;
+    border-radius: 999px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: var(--font-family);
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+.mobile-chip-btn:hover {
+    background: #e8b2bd;
+}
+
+/* 필터 아코디언 */
+.mobile-filter-accordion {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+}
+
+.mobile-filter-summary {
+    padding: 0.65rem 1rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--text-main);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+.mobile-filter-summary::-webkit-details-marker { display: none; }
+.mobile-filter-summary::after {
+    content: '▼';
+    margin-left: auto;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    transition: transform 0.2s;
+}
+.mobile-filter-accordion[open] .mobile-filter-summary::after {
+    transform: rotate(180deg);
+}
+
+.mobile-filter-body {
+    padding: 0.4rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.mobile-filter-group {
+    background: var(--bg-main);
+    border-radius: 0.35rem;
+    padding: 0.35rem 0.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.mobile-filter-group-title {
+    font-size: 0.68rem;
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+}
+
+.mobile-filter-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.mobile-filter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+}
+
+.mobile-filter-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    min-width: 28px;
+}
+
+.mobile-radio-group {
+    display: flex;
+    gap: 2px;
+}
+
+.mobile-reset-btn {
+    background: rgba(220,38,38,0.06);
+    border: 1px solid rgba(220,38,38,0.2);
+    border-radius: 0.375rem;
+    color: #dc2626;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.4rem 0.75rem;
+    cursor: pointer;
+    font-family: var(--font-family);
+    width: 100%;
+    transition: all 0.15s;
+}
+.mobile-reset-btn:hover {
+    background: rgba(220,38,38,0.12);
+}
+
+/* 일정표 래퍼 (모바일) */
+.mobile-schedule-wrapper {
+    overflow-x: auto;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+}
+
+/* 범례 */
+.mobile-legend {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.3rem 0;
+    color: var(--text-muted);
+}
+
+/* 검색 박스 */
+.mobile-search-box {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+/* ============================================
+   모바일 하단 탭바
+   ============================================ */
+.mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+    height: 4.25rem;
+    z-index: 200;
+    box-shadow: 0 -2px 12px rgba(15, 90, 67, 0.08);
+}
+
+.mobile-nav-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 0.4rem 0;
+    transition: all 0.15s;
+    font-family: var(--font-family);
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+}
+
+.mobile-nav-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20%;
+    right: 20%;
+    height: 2.5px;
+    background: var(--primary);
+    border-radius: 0 0 3px 3px;
+    transform: scaleX(0);
+    transition: transform 0.2s;
+}
+
+.mobile-nav-btn.active::before {
+    transform: scaleX(1);
+}
+
+.mobile-nav-btn.active {
+    color: var(--primary);
+}
+
+.mobile-nav-btn.active .mobile-nav-icon {
+    transform: scale(1.15);
+}
+
+.mobile-nav-icon {
+    font-size: 1.3rem;
+    transition: transform 0.2s;
+    line-height: 1;
+}
+
+.mobile-nav-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+/* 모바일에서 PC 전용 요소 숨기기 */
+body.mobile-mode .floating-guide-widget {
+    display: none !important;
+}
+
+/* 인쇄 시 모바일 요소 숨기기 */
+@media print {
+    .mobile-layout,
+    .mobile-bottom-nav,
+    .version-switch-btn,
+    .version-switch-btn-mobile {
+        display: none !important;
+    }
+    .pc-only {
+        display: block !important;
+    }
+}
+
+/* ============================================
+   모바일 전용 카드 및 테이블 요소 크기 미세 조절
+   ============================================ */
+body.mobile-mode .timetable-card {
+    padding: 0.25rem 0.35rem !important;
+    border-radius: 0.3rem !important;
+    border-left-width: 3px !important;
+}
+
+body.mobile-mode .card-header {
+    margin-bottom: 0.05rem !important;
+}
+
+body.mobile-mode .card-univ {
+    font-size: 0.72rem !important;
+}
+
+body.mobile-mode .card-toggle {
+    font-size: 0.58rem !important;
+    padding: 0.02rem 0.18rem !important;
+}
+
+body.mobile-mode .card-track {
+    font-size: 0.62rem !important;
+    margin-bottom: 0.02rem !important;
+}
+
+body.mobile-mode .card-time {
+    font-size: 0.62rem !important;
+}
+
+body.mobile-mode .card-print-detail {
+    font-size: 0.6rem !important;
+    margin-top: 1px !important;
+}
+
+/* 모바일 일정표 테이블 패딩 및 글씨 미세 튜닝 */
+body.mobile-mode .tt-table th, 
+body.mobile-mode .tt-table td {
+    padding: 0.35rem 0.25rem !important;
+}
+
+body.mobile-mode .tt-table th {
+    font-size: 0.72rem !important;
+}
+
+body.mobile-mode .date-cell {
+    font-size: 0.72rem !important;
+}
+
+body.mobile-mode .conflict-badge {
+    font-size: 0.58rem !important;
+    padding: 0.05rem 0.2rem !important;
+}
